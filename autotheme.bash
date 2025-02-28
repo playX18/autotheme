@@ -51,18 +51,27 @@ convert_uri_to_path() {
 file_path=$(convert_uri_to_path "$wallpaper")
 
 if [[ "$file_path" == *.jxl ]]; then
-    echo "Converting JXL background to PNG..."
     png_path="/tmp/$(basename "$file_path" .jxl).png"
-    magick "$file_path" "$png_path"
+    if [[ -z $png_path ]]; then 
+        echo "Converting JXL background to PNG..."
+        magick "$file_path" "$png_path"
+    else 
+        echo "JXL already converted to PNG at $png_path"
+    fi 
     file_path="$png_path"
 elif [[ "$file_path" == *.svg ]]; then
-    echo "Converting SVG background to PNG..."
+    
     png_path="/tmp/$(basename "$file_path" .svg).png"
-    magick "$file_path" "$png_path"
+    if [[ -z $png_path ]]; then 
+        echo "Converting SVG background to PNG..."
+        magick "$file_path" "$png_path"
+    else 
+        echo "SVG already converted to PNG at $png_path"
+    fi 
+    
     file_path="$png_path"
 fi
 
-echo $file_path
 
 if [[ "$theme" == "dark" ]]; then
     palette="dark"
@@ -77,4 +86,5 @@ else
 fi
 
 
-wallust run $file_path --backend $backend --palette $palette --colorspace $color_space --config-dir ~/.config/autotheme
+~/.cargo/bin/wallust run $file_path --backend $backend --palette $palette --colorspace $color_space --config-dir ~/.config/autotheme
+echo "theme changed"

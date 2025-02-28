@@ -31,7 +31,7 @@ fn main() {
             if message.get1() == Some("/org/gnome/desktop/background") {
                 log::info!("Changing theme...");
                 std::process::Command::new(&script)
-                    .spawn()
+                    .stdout(std::io::stdout()).spawn()
                     .unwrap()
                     .wait_with_output()
                     .unwrap();
