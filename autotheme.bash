@@ -53,20 +53,20 @@ file_path=$(convert_uri_to_path "$wallpaper")
 if [[ "$file_path" == *.jxl ]]; then
     png_path="/tmp/$(basename "$file_path" .jxl).png"
     if [[ -z $png_path ]]; then 
+        echo "JXL already converted to PNG at $png_path"
+    else 
         echo "Converting JXL background to PNG..."
         magick "$file_path" "$png_path"
-    else 
-        echo "JXL already converted to PNG at $png_path"
     fi 
     file_path="$png_path"
 elif [[ "$file_path" == *.svg ]]; then
     
     png_path="/tmp/$(basename "$file_path" .svg).png"
     if [[ -z $png_path ]]; then 
+        echo "SVG already converted to PNG at $png_path"
+    else 
         echo "Converting SVG background to PNG..."
         magick "$file_path" "$png_path"
-    else 
-        echo "SVG already converted to PNG at $png_path"
     fi 
     
     file_path="$png_path"
